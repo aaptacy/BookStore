@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Crypto Currencies</title>
+    <style>
+        html {
+            font-size: 42px;
+        }
+    </style>
+</head>
+<body>
+<div class="app"></div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    var div = document.querySelector('.app');
+//    $.ajax({
+//        url: "https://api.coinmarketcap.com/v1/ticker/",
+//        dataType: "json",
+//        type: "GET"
+//    })
+    function updateCup() {
+        $.getJSON({
+            url: "https://api.coinmarketcap.com/v1/ticker/"
+        }).done(function (data) {
+            var sum = 0;
+            data.forEach(function (e) {
+                sum += e.market_cap_usd ? parseFloat(e.market_cap_usd) : 0;
+            });
+            div.innerHTML = "Summary Market CUP (USD): " + (sum/1e9);
+            console.log('ok');
+        }).fail(function (a,b,c) {
+            console.log("Error",a,b,c);
+            document.querySelector('html').style.backgroundColor = "red";
+            document.querySelector('html').innerHTML = "ERROR!!!";
+        });
+    }
+    setInterval(updateCup,2000);
+    
+    updateCup();
+</script>
+</body>
+</html>
